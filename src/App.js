@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./pokedex.png";
+import "./App.css";
+import Input from "./components/input";
+import axios from "axios";
 
 function App() {
+  const list = axios
+    .get("https://pokeapi.co/api/v2/pokemon?limit=15")
+    .then((response) => {
+      console.log(response.data.results);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img src={logo} alt="logo" />
+      <a
+        className="App-link"
+        href="https://pokeapi.co/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        PokéAPI
+      </a>
+      <Input />
+      <div className="list">
+        {list.map((pokemon) => (
+          <p>{pokemon.name}</p>
+        ))}
+      </div>
     </div>
   );
 }
